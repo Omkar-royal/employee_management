@@ -129,7 +129,7 @@ ng serve
 cd test_laravel
 php artisan serve
 </code></pre>
-<p>The backend server will be running at <a href="http://localhost:8000">http://localhost:8000</a>.</p>
+<p>The backend server will be running at <a href="http://localhost:5000">http://localhost:5000</a>.</p>
 
 <h3>Start the Front End Server:</h3>
 <pre><code>
