@@ -50,7 +50,7 @@
 
 <h3 id="clone-the-repository">Clone the Repository</h3>
 <pre><code>
-git clone https://github.com/your-username/employee-management-system.git
+git clone https://github.com/Omkar-royal/employee_management.git
 cd employee-management-system
 </code></pre>
 
@@ -85,11 +85,21 @@ DB_USERNAME=postgres
 DB_PASSWORD=root
 </code></pre>
 
+<h3 id="database-setup-plsql">Database Setup (PL/SQL)</h3>
+<p>Create the database with the name <code>test</code> in your Oracle Database:</p>
+<pre><code>
+CREATE DATABASE test;
+</code></pre>
+
 <p>Run database migrations:</p>
 <pre><code>
 php artisan migrate
 </code></pre>
 
+<p>Run database seeders to populate the database with initial data:</p>
+<pre><code>
+php artisan db:seed
+</code></pre>
 <p>Start the Laravel development server:</p>
 <pre><code>
 php artisan serve --port 5000
