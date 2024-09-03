@@ -127,7 +127,7 @@ ng serve
 <h3>Start the Backend Server:</h3>
 <pre><code>
 cd test_laravel
-php artisan serve
+php artisan serve --port 5000
 </code></pre>
 <p>The backend server will be running at <a href="http://localhost:5000">http://localhost:5000</a>.</p>
 
