@@ -86,7 +86,7 @@ DB_PASSWORD=root
 </code></pre>
 
 <h3 id="database-setup-plsql">Database Setup (PL/SQL)</h3>
-<p>Create the database with the name <code>test</code> in your Oracle Database:</p>
+<p>Create the database with the name <code>test</code> in your PLSQL Database:</p>
 <pre><code>
 CREATE DATABASE test;
 </code></pre>
