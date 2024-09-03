@@ -1,0 +1,231 @@
+@if(!loader){
+<div
+	class="position-absolute loader vh-100 d-flex justify-content-center align-items-center top-0 bottom-0 start-0 end-0"
+>
+	<div class="spinner-border text-primary" role="status">
+		<span class="visually-hidden">Loading...</span>
+	</div>
+</div>
+} @else{
+<div class="container pt-2">
+	<h2 class="fw-bold mb-3">
+		<span class="heading px-2 border-primary">Company</span> employees
+	</h2>
+
+	<div
+		class="col-12 d-flex flex-wrap mt-2 border border-3 border-top-0 border-start-0 border-end-0"
+	>
+		<div class="mb-3 ms-lg-auto me-3 rounded-pill">
+			<input
+				type="text"
+				class="form-control-plaintext border border-secondary border-3 border-top-0 border-start-0 border-end-0 rounded-pill px-3"
+				[(ngModel)]="searchTerm"
+				placeholder="Search..."
+				(input)="onSearch()"
+			/>
+		</div>
+		<div class="mb-3 me-3 rounded-pill">
+			<a
+				class="btn px-2 text-nowrap createTaskBtn text-decoration-none btn-outline-primary border-secondary rounded-pill border border-3 border-top-0 border-start-0 border-end-0"
+				routerLink="/add_salary"
+			>
+				<i class="bi bi-plus"></i>
+				Add salary
+			</a>
+		</div>
+	</div>
+</div>
+<div class="content py-0 mt-2">
+	<div class="container pb-5 mb-2">
+		<div class="table-responsive">
+			<table class="table custom-table shadow">
+				<thead
+					class="border border-secondary border-3 border-top-0 border-start-0 border-end-0"
+				>
+					<tr>
+						<th class="col">S.No</th>
+						<th scope="col" class="text-nowrap">Employee ID</th>
+						<th scope="col" class="text-nowrap">Employee</th>
+						<th scope="col">Base Salary (Rs.)</th>
+						<th scope="col">Total Earnings</th>
+						<th scope="col">Total Deductions</th>
+						<th scope="col">Net Salary</th>
+						<th scope="col">Salary Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					@for(employee of employeesSalaries;track $index){
+					<tr>
+						<td>{{ $index + 1 }}</td>
+
+						<td>Employee-0{{ employee.id }}</td>
+						<td class="text-nowrap">
+							<img
+								[src]="
+									imagePath + employee.employee.employee_image
+								"
+								class="rounded-circle employee_image"
+							/>
+							{{ employee.employee.fullname }}
+						</td>
+						<td>{{ employee.base_salary | currency : "Rs." }}</td>
+						<td>
+							{{ employee.total_earnings | currency : "Rs." }}
+						</td>
+						<td>
+							{{ employee.total_deductions | currency : "Rs." }}
+						</td>
+						<td>
+							{{ employee.net_salary | currency : "Rs." }}
+						</td>
+						<td>
+							{{ employee.date_of_salary | date }}
+						</td>
+						<td>
+							<button
+								type="button"
+								class="btn btn-outline-primary"
+								data-bs-toggle="modal"
+								data-bs-target="#staticBackdrop"
+								(click)="viewPayslip($index)"
+							>
+								View Payslip
+							</button>
+						</td>
+					</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="position-fixed bottom-0 w-100 bg-white">
+	<div class="d-flex flex-column justify-content-center align-items-center">
+		<p>
+			Page {{ paginationInfo.current_page }} of
+			{{ paginationInfo.total_pages }}
+		</p>
+	</div>
+	<div class="pagination">
+		<button
+			class="arrow btn"
+			id="prevPage"
+			[class.disabled]="paginationInfo.current_page === 1"
+			(click)="changePage(paginationInfo.current_page - 1)"
+		>
+			←
+			<span
+				class="nav-text"
+				[class.disabled]="paginationInfo.current_page === 1"
+				>PREV</span
+			>
+		</button>
+
+		<button
+			class="arrow btn"
+			id="nextPage"
+			[class.disabled]="
+				paginationInfo.current_page === paginationInfo.total_pages
+			"
+			(click)="changePage(paginationInfo.current_page + 1)"
+		>
+			<span
+				class="nav-text"
+				[class.disabled]="
+					paginationInfo.current_page === paginationInfo.total_pages
+				"
+				>NEXT</span
+			>
+			→
+		</button>
+	</div>
+</div>
+
+<div
+	class="modal fade"
+	id="staticBackdrop"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+	aria-labelledby="staticBackdropLabel"
+	aria-hidden="true"
+>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title text-success" id="staticBackdropLabel">
+					Employee salary payslip
+				</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<table>
+					<span class="fs-6 fw-bold">Earnings:</span>
+					<tr>
+						<td>Basic salary</td>
+						<td>
+							{{ paySlip.base_salary | currency : "Rs." }}
+						</td>
+					</tr>
+					@for(earning of paySlip.earning;track $index){
+					@if(paySlip.id==earning.salary_id){
+					<tr>
+						@if(earning.earning_id==1){
+						<td>Overtime Pay :</td>
+						} @if (earning.earning_id==2) {
+						<td>Bonus :</td>
+						} @if (earning.earning_id==3) {
+						<td>Allowances :</td>
+						}
+						<td>{{ earning.amount | currency : "Rs." }}</td>
+					</tr>
+					} }
+					<tr>
+						<td class="fw-medium">Total earnings</td>
+						<td>
+							{{ paySlip.total_earnings | currency : "Rs." }}
+						</td>
+					</tr>
+					<span class="fs-6 fw-bold">Deductions:</span>
+
+					@for(deduction of paySlip.deduction;track $index){
+					@if(paySlip.id==deduction.salary_id){
+					<tr>
+						@if(deduction.deduction_id==1){
+						<td>Income Tax :</td>
+						} @else if (deduction.deduction_id==2) {
+						<td>Security Tax :</td>
+						} @else if (deduction.deduction_id==3) {
+						<td>Health Insurance Premiums :</td>
+						} @else if (deduction.deduction_id==4) {
+						<td>Provident Fund :</td>
+						} @else if (deduction.deduction_id==5) {
+						<td>Loan Repayments :</td>
+						}
+						<td>{{ deduction.amount | currency : "Rs." }}</td>
+					</tr>
+					} }
+					<tr>
+						<td class="fw-medium">Total deductions</td>
+						<td>
+							{{ paySlip.total_deductions | currency : "Rs." }}
+						</td>
+					</tr>
+					<tr>
+						<td class="fw-bold">Net payable amount :</td>
+						<td>
+							<b>{{ paySlip.net_salary | currency : "Rs." }}</b>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+}

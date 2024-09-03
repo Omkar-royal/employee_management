@@ -1,0 +1,111 @@
+<div class="container">
+	<div class="row justify-content-center align-items-center">
+		<h3 class="text-center">Add loan</h3>
+
+		<div class="col-8 gap-3 d-flex flex-column justify-content-center">
+			<div class="mb-3">
+				<label for="">Select loan type:</label>
+				<select
+					class="form-select"
+					aria-label="Default select example"
+					[(ngModel)]="loanType"
+				>
+					<option selected disabled value="0">
+						Select loan type...
+					</option>
+					<option value="one">one</option>
+					<option value="two">two</option>
+					<option value="three">three</option>
+				</select>
+			</div>
+			<!-- @switch (loanType=='one') { @case ('one') {
+			
+			} @case ('two') {
+			<h1>Hello Two!</h1>
+			} @case ('three') {
+			<h1>Hello three!</h1>
+			} } -->
+
+			<div [ngSwitch]="loanType">
+				<div *ngSwitchCase="'one'">
+					<div class="d-flex flex-column col-12 col-lg-8">
+						<div class="d-flex gap-4 flex-wrap">
+							<div>
+								<label for="loanAmount">Loan amount:</label>
+								<input
+									type="text"
+									class="form-control"
+									placeholder="Enter loan amount"
+								/>
+							</div>
+							<div class="d-flex gap-4 flex-wrap">
+								<div class="mb-3">
+									<label for="">Interest rate:</label>
+									<select
+										class="form-select"
+										aria-label="Default select example"
+									>
+										<option selected>
+											Select interest rate...
+										</option>
+										<option value="1">10%</option>
+										<option value="2">15%</option>
+										<option value="3">20%</option>
+									</select>
+								</div>
+								<div>
+									<label for="loanAmount">Term:</label>
+									<input
+										type="text"
+										class="form-control"
+										placeholder="Enter term"
+									/>
+								</div>
+							</div>
+							<div class="d-flex gap-4 flex-wrap">
+								<div class="mb-3">
+									<label for="">Select start year:</label>
+									<select
+										class="form-select"
+										aria-label="Default select example"
+									>
+										<option selected>
+											Select start year...
+										</option>
+										<option value="1">2024</option>
+										<option value="2">2025</option>
+										<option value="3">2026</option>
+									</select>
+								</div>
+								<div class="mb-3">
+									<label for="">Select end year:</label>
+									<select
+										class="form-select"
+										aria-label="Default select example"
+									>
+										<option selected>
+											Select end year..
+										</option>
+										<option value="1">2024</option>
+										<option value="2">2025</option>
+										<option value="3">2026</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div *ngSwitchCase="'two'">
+					<h1>Loan type two</h1>
+				</div>
+				<div *ngSwitchCase="'three'">
+					<h1>Loan type three</h1>
+				</div>
+				<div *ngSwitchDefault>
+					<!-- Default content if no cases match -->
+					Default Loan Type
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
